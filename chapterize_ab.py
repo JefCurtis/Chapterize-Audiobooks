@@ -232,6 +232,8 @@ def parse_args():
                         help='Generate a cue file in the audiobook directory for editing chapter markers. Can also be set in defaults.toml. Default disabled')
     parser.add_argument('--cue_path', '-cp', nargs='?', default=None, metavar='CUE_PATH', type=path_exists,
                         help='Path to cue file in non-default location (i.e., not in the audiobook directory) containing chapter timecodes. Can also be set in defaults.toml, which has lesser precedence than this argument')
+    parser.add_argument('--skip-chapterization', '-sc', action='store_true', dest='skip_chapterization',
+                        help='Generate a cue file in the audiobook directory for editing chapter markers. Can also be set in defaults.toml. Default disabled')
 
     args = parser.parse_args()
     config = parse_config()
@@ -1068,7 +1070,9 @@ def main():
     # Split the file
     con.rule("[cyan]Chapterizing File[/cyan]")
     print("\n")
-    split_file(audiobook_file, timecodes, parsed_metadata, cover_art)
+
+    if not args.skip_chapterization
+        split_file(audiobook_file, timecodes, parsed_metadata, cover_art)
 
     # Count the generated files and compare to timecode dict to ensure they match
     verify_count(audiobook_file, timecodes)
