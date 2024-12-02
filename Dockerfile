@@ -7,6 +7,8 @@ WORKDIR /usr/src/app
 # Install ffmpeg
 RUN apt-get update && apt-get install -y ffmpeg
 
+RUN apt-get update && apt-get install -y libatomic1
+
 # Copy the requirements file into the container
 COPY requirements.txt ./
 
