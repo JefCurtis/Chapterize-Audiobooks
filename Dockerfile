@@ -4,19 +4,20 @@ FROM python:3.10-slim
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Install ffmpeg
-RUN apt-get update && apt-get install -y ffmpeg
+# Install ffmpeg and other dependencies
+RUN apt-get update && apt-get install -y ffmpeg libatomic1
 
-RUN apt-get update && apt-get install -y libatomic1
+# Copy the requirements files into the container
+COPY requirements.txt requirements-api.txt ./
 
-# Copy the requirements file into the container
-COPY requirements.txt ./
-
-# Install the dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install the dependencies specified in requirements.txt files
+RUN pip install --no-cache-dir -r requirements.txt -r requirements-api.txt
 
 # Copy the rest of the application code into the container
 COPY . .
 
-# Define the entrypoint
-ENTRYPOINT ["python", "chapterize_ab.py"]
+# Expose port 8000 for the FastAPI server
+EXPOSE 8000
+
+# Define the entrypoint to start the FastAPI server
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

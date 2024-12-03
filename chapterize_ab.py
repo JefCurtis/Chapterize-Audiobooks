@@ -1071,7 +1071,7 @@ def main():
     con.rule("[cyan]Chapterizing File[/cyan]")
     print("\n")
 
-    if not args.skip_chapterization
+    if not args.skip_chapterization:
         split_file(audiobook_file, timecodes, parsed_metadata, cover_art)
 
     # Count the generated files and compare to timecode dict to ensure they match
